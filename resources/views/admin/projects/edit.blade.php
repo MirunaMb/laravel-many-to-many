@@ -74,27 +74,6 @@
                     @enderror
                 </div>
 
-                <div class="mb-3">
-                    <label for="created" class="form-label">Created at</label>
-                    <input type="text" class="form-control @error('created_at') is-invalid @enderror" id="created"
-                        name="created" value="{{ old('created_at') }}">
-                    @error('created_at')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-
-                <div class="col-3">
-                    <label for="updated">Update</label>
-                    <textarea id="updated" name="updated" class="form-control @error('updated_at') is-invalid @enderror">{{ old('updated_at', $projects->updated_at) }}</textarea>
-                    @error('updated_at')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-
                 <button type="submit" class="btn btn-primary">Salva</button>
         </form>
     </div>

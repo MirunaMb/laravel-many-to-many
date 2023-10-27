@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
 
+
 class ProjectController extends Controller
 {
     /**
@@ -53,8 +54,7 @@ class ProjectController extends Controller
                 'title' => 'required|string|max:75',
                 'content'=>'required|string|max:75',
                 'slug' => 'required|string|max:75',
-                'created' => 'required|string|max:75',
-                'updated' => 'required|string|max:75',
+                'type_id' => 'required|integer'
             ],
             [
                 'title.required' => 'Il titolo è obbligatorio',
@@ -63,16 +63,11 @@ class ProjectController extends Controller
                 'content.required' => 'Il content è obbligatorio',
                 'content.string' => 'Il content deve essere una stringa',
                 'content.max' => 'Il content deve contenere meno di 75 caratteri',
+                'type_id' =>'Il titolo è obbligatorio',
 
                 'slug.required' => 'Lo slug è obbligatorio',
                 'slug.string' => 'Lo slug deve essere una stringa',
                 'slug.max' => 'Lo slug deve contenere meno di 75 caratteri',
-                'created.required' => 'Il campo "creato" è obbligatorio',
-                'created.string' => 'Il campo "creato" deve essere una stringa',
-                'created.max' => 'Il campo "creato" deve contenere meno di 75 caratteri',
-                'updated.required' => 'Il campo "aggiornato" è obbligatorio',
-                'updated.string' => 'Il campo "aggiornato" deve essere una stringa',
-                'updated.max' => 'Il campo "aggiornato" deve contenere meno di 75 caratteri',
             ],
         );
         // Verifica se la validazione ha avuto successo
@@ -139,15 +134,13 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $data = $request->all();
-
         $validator = Validator::make(
             $data,
             [
                 'title' => 'required|string|max:75',
                 'content'=>'required|string|max:75',
                 'slug' => 'required|string|max:75',
-                'created' => 'required|string|max:75',
-                'updated' => 'required|string|max:75',
+                'type_id'=> 'required',
             ],
             [
                 'title.required' => 'Il titolo è obbligatorio',
@@ -156,16 +149,11 @@ class ProjectController extends Controller
                 'content.required' => 'Il content è obbligatorio',
                 'content.string' => 'Il content deve essere una stringa',
                 'content.max' => 'Il content deve contenere meno di 75 caratteri',
+                'type_id.required' => 'Il tipo è obbligatorio',
 
                 'slug.required' => 'Lo slug è obbligatorio',
                 'slug.string' => 'Lo slug deve essere una stringa',
                 'slug.max' => 'Lo slug deve contenere meno di 75 caratteri',
-                'created.required' => 'Il campo "creato" è obbligatorio',
-                'created.string' => 'Il campo "creato" deve essere una stringa',
-                'created.max' => 'Il campo "creato" deve contenere meno di 75 caratteri',
-                'updated.required' => 'Il campo "aggiornato" è obbligatorio',
-                'updated.string' => 'Il campo "aggiornato" deve essere una stringa',
-                'updated.max' => 'Il campo "aggiornato" deve contenere meno di 75 caratteri',
             ],
         );
         if ($validator->fails()) {
