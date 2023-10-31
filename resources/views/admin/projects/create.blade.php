@@ -81,6 +81,10 @@
                                     {{ $message }}
                                 </div>
                             @enderror
+                            <div class="col-4">
+                                <img src="" class="img-fluid"
+                                    alt="" id="cover_image_preview">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,4 +92,19 @@
                 <button type="submit" class="btn btn-primary">Salva</button>
         </form>
     </div>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        const inputFileElement = document.getElementById('cover_image');
+        const coverImagePreview = document.getElementById('cover_image_preview');
+        inputFileElement.addEventListener('change', function() { //prendo l'input,intercetto il change
+            alert('Immagine Cambiata');
+            const [file] = this.files //prendo il file dentro input
+            //quando l'immagine viene cambiata crea un Array di files da dove andiamo a estrarrne un solo file 
+
+            //console.log(URL.createObjectURL(file)); //genera un blob-un formato di dati che contiene una lunga stringa di dati(che sono proprio l'immagine fisica)
+            coverImagePreview.src = URL.createObjectURL(
+            file); //il source di coverImagePreview e uguale al URL che creo dal file 
+        })
+    </script>
 @endsection
