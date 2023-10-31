@@ -8,7 +8,7 @@
 
         <h1>Modifica Project</h1>
 
-        <form action="{{ route('admin.projects.update', $projects) }}" method="POST">
+        <form action="{{ route('admin.projects.update', $projects) }}" method="POST" enctype="multipart/form-data">>
             @csrf {{-- Aggiunge il token CSRF --}}
             @method('PUT') {{-- Utilizza il metodo PUT per l'aggiornamento --}}
 
@@ -26,7 +26,7 @@
 
                 <div class="row">
                     <label class="tiping my-3" for="type">Tipologia</label>
-                    <select class="form-select w-25" id="type" name="type_id">
+                    <select class="form-select " id="type" name="type_id">
                         <option value=""></option>
                         @foreach ($types as $type)
                             <option @selected($type->id == old('type_id', $projects->type?->id)) value="{{ $type->id }}">{{ $type->name }}</option>
@@ -73,6 +73,25 @@
                         </div>
                     @enderror
                 </div>
+                <!-- IMAGE -->
+                <div class="col-12 mb-4">
+                    <div class="row">
+                        <div class="col-8">
+                            <label for="cover_image" class="form-label">Carica immagine</label>
+                            <input type="file" class="form-control" id="cover_image" name="cover_image"
+                                value="{{ old('cover_image') }}">
+                            @error('cover_image')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-4">
+                        <img src="{{ asset('/storage/' . $projects->cover_image) }}" class="img-fluid" alt="">
+                        </div>
+                    </div>
+
+                        </div>
 
                 <button type="submit" class="btn btn-primary">Salva</button>
         </form>
