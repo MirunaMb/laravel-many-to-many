@@ -52,48 +52,65 @@
                         </div>
                     </div>
 
-                <div class="col-3">
-                    <label for="content">Content</label>
-                    <input type="content" id="content" name="content" value="{{ old('content', $projects->title) }}"
-                        class="form-control @error('title') is-invalid @enderror">
-                    </select>
-                    @error('type')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-
-                <div class="mb-3">
-                    <label for="slug" class="form-label">Slug</label>
-                    <textarea class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" rows="4">{{ old('slug') }}</textarea>
-                    @error('slug')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <!-- IMAGE -->
-                <div class="col-12 mb-4">
-                    <div class="row">
-                        <div class="col-8">
-                            <label for="cover_image" class="form-label">Carica immagine</label>
-                            <input type="file" class="form-control" id="cover_image" name="cover_image"
-                                value="{{ old('cover_image') }}">
-                            @error('cover_image')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-4">
-                        <img src="{{ asset('/storage/' . $projects->cover_image) }}" class="img-fluid" alt="">
-                        </div>
+                    <div class="col-3">
+                        <label for="content">Content</label>
+                        <input type="content" id="content" name="content" value="{{ old('content', $projects->title) }}"
+                            class="form-control @error('title') is-invalid @enderror">
+                        </select>
+                        @error('type')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
+                    <div class="mb-3">
+                        <label for="slug" class="form-label">Slug</label>
+                        <textarea class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" rows="4">{{ old('slug') }}</textarea>
+                        @error('slug')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <!-- IMAGE -->
+                    <div class="col-12 mb-4">
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="cover_image" class="form-label">Carica immagine</label>
+                                <input type="file" class="form-control" id="cover_image" name="cover_image"
+                                    value="{{ old('cover_image') }}">
+                                @error('cover_image')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="col-4">
+                                <img src="{{ asset('/storage/' . $projects->cover_image) }}" class="img-fluid"
+                                    alt="" id="cover_image_preview">
+                            </div>
                         </div>
 
-                <button type="submit" class="btn btn-primary">Salva</button>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Salva</button>
         </form>
     </div>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        const inputFileElement = document.getElementById('cover_image');
+        const coverImagePreview = document.getElementById('cover_image_preview');
+        inputFileElement.addEventListener('change', function() { //prendo l'input,intercetto il change
+            alert('Immagine Cambiata');
+            const [file] = this.files //prendo il file dentro input
+            //quando l'immagine viene cambiata crea un Array di files da dove andiamo a estrarrne un solo file 
+
+            //console.log(URL.createObjectURL(file)); //genera un blob-un formato di dati che contiene una lunga stringa di dati(che sono proprio l'immagine fisica)
+            coverImagePreview.src = URL.createObjectURL(
+            file); //il source di coverImagePreview e uguale al URL che creo dal file 
+        })
+    </script>
 @endsection
