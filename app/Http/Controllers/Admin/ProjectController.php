@@ -9,6 +9,7 @@ use App\Models\Technology;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProjectController extends Controller
@@ -54,7 +55,8 @@ class ProjectController extends Controller
                 'title' => 'required|string|max:75',
                 'content'=>'required|string|max:75',
                 'slug' => 'required|string|max:75',
-                'type_id' => 'required|integer'
+                'type_id' => 'required|integer',
+                'cover_image' => ['nullable', 'image', 'max:512'], 
             ],
             [
                 'title.required' => 'Il titolo è obbligatorio',
@@ -68,6 +70,8 @@ class ProjectController extends Controller
                 'slug.required' => 'Lo slug è obbligatorio',
                 'slug.string' => 'Lo slug deve essere una stringa',
                 'slug.max' => 'Lo slug deve contenere meno di 75 caratteri',
+                'cover_image.image'=>'Il file caricato deve essere un\'immagine',
+                'cover_image.max'=>'Il file caricato deve avere una dimensione inferiore a 512KB',
             ],
         );
         // Verifica se la validazione ha avuto successo
@@ -77,9 +81,14 @@ class ProjectController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
+        //Se esiste la chiave cover_image fammi il caricamento
+        if (Arr::exists($data,'cover_image')){
+            $cover_image_path = Storage::put('uploads/posts/cover_image',$data['cover_image']);
+            $data['cover_image']= $cover_image_path;  //aggiorna l'elemento "cover_image" all'interno dell'array "$data" con il percorso dell'immagine di copertina
+        }
         // Crea e salva un nuovo progetto nel database
         $project = Project::create($data);
+
         if (Arr::exists($data,"technologies")){
             $project->technologies()->sync($data["technologies"]);
 
@@ -141,6 +150,8 @@ class ProjectController extends Controller
                 'content'=>'required|string|max:75',
                 'slug' => 'required|string|max:75',
                 'type_id'=> 'required',
+                'cover_image' => ['nullable', 'image', 'max:512'], 
+
             ],
             [
                 'title.required' => 'Il titolo è obbligatorio',
@@ -154,6 +165,9 @@ class ProjectController extends Controller
                 'slug.required' => 'Lo slug è obbligatorio',
                 'slug.string' => 'Lo slug deve essere una stringa',
                 'slug.max' => 'Lo slug deve contenere meno di 75 caratteri',
+                'cover_image.image'=>'Il file caricato deve essere un\'immagine',
+                'cover_image.max'=>'Il file caricato deve avere una dimensione inferiore a 512KB',
+
             ],
         );
         if ($validator->fails()) {
