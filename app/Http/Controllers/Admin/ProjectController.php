@@ -145,7 +145,6 @@ class ProjectController extends Controller
         $data = $request->all();
         $validator = Validator::make(
             $data,
-            dd($data),
             [
                 'title' => 'required|string|max:75',
                 'content'=>'required|string|max:75',
@@ -179,6 +178,14 @@ class ProjectController extends Controller
         }
 
         $project = Project::findOrFail($project->id);
+        if(Arr::exists($data,'cover_image')) { //se esiste il dato cover_image dentro la risorce edit 
+            if($project->cover_image){ //e se la chiave cover_image si trova dentro project
+                Storage::delete($project->cover_image);
+            }
+            $cover_image_path = Storage::put('uploads/posts/cover_image',$data['cover_image']);
+            $data['cover_image']= $cover_image_path; 
+        }
+        
         $project->update($data);
 
         $project->update($data);
