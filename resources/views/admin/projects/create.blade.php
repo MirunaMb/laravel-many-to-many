@@ -52,7 +52,7 @@
 
                     <div class="col-6">
                         <div class="mb-3">
-                            <label for="content" class="form-label">Titolo</label>
+                            <label for="content" class="form-label">Content</label>
                             <input type="text" class="form-control @error('content') is-invalid @enderror" id="content"
                                 name="content" value="{{ old('content') }}">
                             @error('content')
