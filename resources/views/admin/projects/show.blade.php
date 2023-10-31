@@ -6,6 +6,10 @@
             <p class="show"> {{ $projects->id }}</p>
 
         </h2>
+        <!-- img -->
+        <div class="col-4">
+            <img src="{{ asset('/storage/' . $projects->cover_image) }}" class="img-fluid" alt="">
+        </div>
         <p class="card-text"><span class="show">Titolo: </span>
         <p class="des-show">{{ $projects->title }}</p>
         </p>
