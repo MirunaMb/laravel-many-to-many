@@ -71,6 +71,16 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="col-12 mb-4">
+                            <label for="cover_image" class="form-label">Carica immagine</label>
+                            <input type="file" class="form-control" id="cover_image" name="cover_image"
+                                value="{{ old('cover_image') }}">
+                            @error('cover_image')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
