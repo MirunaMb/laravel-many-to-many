@@ -145,6 +145,7 @@ class ProjectController extends Controller
         $data = $request->all();
         $validator = Validator::make(
             $data,
+            dd($data),
             [
                 'title' => 'required|string|max:75',
                 'content'=>'required|string|max:75',
@@ -199,10 +200,17 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $projects = Project::findOrFail($project->id);
-        $projects->delete();
-        return redirect()->route('admin.projects.index');
 
+        //se esiste un'immagine di copertina associata al progetto,rimuovila dallo storage
+        if (!empty($projects->cover_image)) {
+            Storage::delete($projects->cover_image);
+        }
+    // elimina le eventuali relazioni con le tecnologie
         $project->technologies()->detach();
-        $project->delete();
+
+     // elimina il progetto dal database
+         $project->delete();
+
+         return redirect()->route('admin.projects.index');
     }
 }
