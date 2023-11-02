@@ -35,6 +35,7 @@ Route::middleware(['auth', 'verified'])
     //8.Chi gestisce la routa ?Il ProjectController
     //9.Con quale metodo? deleteImage che dovremmo creare nel controller
     //10.Il name deve corrispondere con quello messo nella action del form di edit
+    Route::patch('/projects/{project}/publish', [ProjectController::class,'publish'])->name('projects.publish');
   });
 
 require __DIR__ . '/auth.php';

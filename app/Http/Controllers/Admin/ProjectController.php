@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail; //per poter inviare mail
+use App\Mail\ProjectPublished; //importare la classe della mail
+use Illuminate\Support\Facades\Auth; //per il user
 
 
 class ProjectController extends Controller
@@ -21,7 +24,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-       $projects = Project::paginate(10);
+       $projects = Project::orderBydesc("id","desc")->paginate(10);
        $types = Type::all();
        $technologies = Technology::all();
        return view("admin.projects.index", compact('types',"projects","technologies"));
@@ -228,5 +231,17 @@ class ProjectController extends Controller
        $project->save(); // salvo il project
        return redirect()->back();
         }
+    }
+
+    public function publish(Project $project, Request $request){
+       $data = $request->all();
+       $project->published = !Arr::exists($data,'published') ? 1 : null;
+       $project->save();
+
+        //Aggiuge l'invio della mail 
+        $user = Auth::user();
+        Mail::to($user->email)->send(new ProjectPublished($project));
+
+       return redirect()->back();
     }
 }

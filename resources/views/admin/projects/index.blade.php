@@ -22,6 +22,7 @@
                         <th scope="col">Created at</th>
                         <th scope="col">Updated at</th>
                         <th scope="col"></th>
+                        <th scope="col">Published</th>
 
 
                     </tr>
@@ -80,6 +81,20 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>
+                                <form action="{{ route('admin.projects.publish', $project) }}" method="POST"
+                                    id="form-published-{{ $project->id }}">
+                                    @method('PATCH')
+                                    @csrf
+                                    <label class="switch">
+                                        <input type="checkbox" name="published"
+                                            @if ($project->published) checked @endif>
+                                        <span class="slider round checkbox-published" data-id={{ $project->id }}></span>
+                                    </label>
+
+
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -87,4 +102,20 @@
         </div>
         {{ $projects->links('pagination::bootstrap-5') }}
     </div>
+@endsection
+
+
+@section('scripts')
+    <script>
+        const checkboxesPublished = document.getElementsByClassName('checkbox-published');
+        console.log(checkboxesPublished);
+
+        for (checkbox of checkboxesPublished) {
+            checkbox.addEventListener('click', function() {
+                const idPost = this.getAttribute('data-id');
+                const form = document.getElementById('form-published-' + idPost);
+                form.submit();
+            });
+        }
+    </script>
 @endsection
