@@ -86,7 +86,15 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="col-4">
+                            <div class="col-4 position-relative">
+                                @if ($projects->cover_image)
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-image-button">
+                                        <i class="fas fa-trash" id="delete-image-button"></i>
+                                        {{-- 1.dai un id al icon trash per identifacarla --}}
+                                        <span class="visually-hidden">delete image</span>
+                                    </span>
+                                @endif
                                 <img src="{{ asset('/storage/' . $projects->cover_image) }}" class="img-fluid"
                                     alt="" id="cover_image_preview">
                             </div>
@@ -96,6 +104,14 @@
 
                     <button type="submit" class="btn btn-primary">Salva</button>
         </form>
+        @if ($projects->cover_image)
+            <form id="delete-image-form" action="{{ route('admin.projects.delete-image', $projects) }}" method="POST">
+                {{-- 4.action -> il form porta a una route nel web.php --}}
+                @method('DELETE')
+                @csrf
+            </form>
+        @endif
+
     </div>
 @endsection
 
@@ -110,7 +126,17 @@
 
             //console.log(URL.createObjectURL(file)); //genera un blob-un formato di dati che contiene una lunga stringa di dati(che sono proprio l'immagine fisica)
             coverImagePreview.src = URL.createObjectURL(
-            file); //il source di coverImagePreview e uguale al URL che creo dal file 
+                file); //il source di coverImagePreview e uguale al URL che creo dal file 
         })
     </script>
+    {{-- SCRIPT PER  LA CANCELLAZIONE IMMAGINE  --}}
+    @if ($projects->cover_image)
+        <script>
+            const deleteImageButton = document.getElementById('delete-image-button'); // 2.prendi l/ id del icon 
+            const deleteImageForm = document.getElementById('delete-image-form'); // 3.prendi l/id del form 
+            deleteImageButton.addEventListener('click', function() { // 3.all click si invia il form
+                (deleteImageForm.submit());
+            })
+        </script>
+    @endif
 @endsection

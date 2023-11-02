@@ -220,4 +220,13 @@ class ProjectController extends Controller
 
          return redirect()->route('admin.projects.index');
     }
+
+    public function deleteImage(Project $project){ //passo la classe e l/'id
+        if ($project->cover_image) {
+       Storage::delete($project->cover_image); //cancello l'immagine del post
+       $project->cover_image = null; //svuoto il campo
+       $project->save(); // salvo il project
+       return redirect()->back();
+        }
+    }
 }

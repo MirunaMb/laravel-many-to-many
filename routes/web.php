@@ -28,6 +28,13 @@ Route::middleware(['auth', 'verified'])
     Route::get('/', [AdminPageController::class, 'index'])->name('home');
 
     Route::resource('projects', ProjectController::class);
+    Route::delete('/projects/{project}/delete-image',[ProjectController::class, 'deleteImage'])->name('projects.delete-image');
+    //5.che tipo di routa ? delete
+    //6.deve portare alla cartella projects
+    //7.quale project?serve l/id {project}
+    //8.Chi gestisce la routa ?Il ProjectController
+    //9.Con quale metodo? deleteImage che dovremmo creare nel controller
+    //10.Il name deve corrispondere con quello messo nella action del form di edit
   });
 
 require __DIR__ . '/auth.php';
